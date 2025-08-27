@@ -1,11 +1,11 @@
 package com.github.tareforme.domain.model;
 
 import com.github.tareforme.domain.expeptions.InvalidNameException;
-import com.github.tareforme.domain.valueobjects.Description;
-import com.github.tareforme.domain.valueobjects.Name;
 import com.github.tareforme.domain.valueobjects.TaskInfo;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.Instant;
@@ -13,11 +13,13 @@ import java.time.Instant;
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Embedded
     private TaskInfo taskInfo;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -25,7 +27,7 @@ public class Task {
 
     private DefaultUser owner;
 
-    private final Instant createdAt;
+    private Instant createdAt;
 
     public Task(String name, String description, DefaultUser owner){
         this.taskInfo = new TaskInfo(name, description);
