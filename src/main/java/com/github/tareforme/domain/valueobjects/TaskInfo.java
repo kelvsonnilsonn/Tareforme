@@ -1,10 +1,12 @@
 package com.github.tareforme.domain.valueobjects;
 
 import com.github.tareforme.domain.expeptions.InvalidNameException;
+import jakarta.persistence.Embeddable;
 import jakarta.persistence.Embedded;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+@Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class TaskInfo {
     @Embedded
