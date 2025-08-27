@@ -14,6 +14,7 @@ import java.time.Instant;
 @Setter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "tasks")
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,15 +25,17 @@ public class Task {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="user_id")
-
     private DefaultUser owner;
 
     private Instant createdAt;
+
+    private TaskStatus status;
 
     public Task(String name, String description, DefaultUser owner){
         this.taskInfo = new TaskInfo(name, description);
         this.owner = owner;
         this.createdAt = Instant.now();
+        this.status = TaskStatus.CREATED;
     }
 
     public boolean changeTaskName(String oName) throws InvalidNameException {
