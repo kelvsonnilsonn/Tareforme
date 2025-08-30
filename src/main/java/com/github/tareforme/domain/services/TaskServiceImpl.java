@@ -6,6 +6,7 @@ import com.github.tareforme.domain.model.DefaultUser;
 import com.github.tareforme.domain.model.Task;
 import com.github.tareforme.domain.ports.service.TaskService;
 import com.github.tareforme.infra.repositories.TaskRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,31 +20,36 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public boolean create(String name, String description, DefaultUser owner) throws InvalidNameException, InvalidDescriptionException {
+    public void create(String name, String description, DefaultUser owner) throws InvalidNameException, InvalidDescriptionException {
         taskDAO.save(new Task(name, description, owner));
-        return true;
     }
 
     @Override
-    public boolean delete(Long id) {
-        try{
-            taskDAO.delete(findById(id));
-            return true;
-        } catch (Exception e) {
-            return false;
+    public void delete(Long id) {
+        Task task = findById(id);
+        if(task == null){
+            throw new EntityNotFoundException("Task com o id " + id + " não encontrada.");
         }
+        taskDAO.delete(task);
     }
 
     @Override
-    public boolean delete(Task task) {
-        try{
-            taskDAO.delete(task);
-            return true;
-        } catch (Exception e) {
-            return false;
+    public void delete(Task task) {
+        Task t = findById(task.getId());
+        if(t == null){
+            throw new EntityNotFoundException("Task não encontrada.");
         }
+        taskDAO.delete(t);
     }
 
+    @Override
+    public void update(Task task) {
+        Task t = findById(task.getId());
+        if(t == null){
+            throw new EntityNotFoundException("Task não encontrada.");
+        }
+        taskDAO.save(task);
+    }
 
     @Override
     public Task findById(Long id) {

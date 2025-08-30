@@ -6,8 +6,9 @@ import com.github.tareforme.domain.model.DefaultUser;
 import com.github.tareforme.domain.model.Task;
 
 public interface TaskService {
-    boolean create(String name, String Description, DefaultUser owner) throws InvalidNameException, InvalidDescriptionException;
-    boolean delete(Long id);
-    boolean delete(Task task);
+    void create(String name, String Description, DefaultUser owner) throws InvalidNameException, InvalidDescriptionException;
+    void delete(Long id);
+    void delete(Task task);
+    void update(Task task);
     Task findById(Long id);
 }

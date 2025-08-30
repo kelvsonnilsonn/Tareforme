@@ -5,6 +5,7 @@ import com.github.tareforme.domain.expeptions.InvalidPasswordException;
 import com.github.tareforme.domain.model.User;
 import com.github.tareforme.domain.ports.service.UserService;
 import com.github.tareforme.infra.repositories.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,47 +21,38 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean create(String name, String pass) throws InvalidNameException, InvalidPasswordException {
+    public void create(String name, String pass) throws InvalidNameException, InvalidPasswordException {
         userDAO.save(new User(name, pass));
-        return true;
     }
 
     @Override
-    public boolean delete(Long id) {
-        try {
-            userDAO.deleteById(id);
-            return true;
-        } catch (Exception e) {
-            return false;
+    public void delete(Long id) {
+        User user = findById(id);
+        if(user == null){
+            throw new EntityNotFoundException("User com o id" + id + " não encontrado.");
         }
+        userDAO.delete(user);
+    }
+    @Override
+    public void delete(User user) {
+        User u = findById(user.getId());
+        if(u == null){
+            throw new EntityNotFoundException("User não encontrado.");
+        }
+        userDAO.delete(u);
     }
 
     @Override
-    public boolean delete(User user) {
-        try {
-            userDAO.delete(user);
-            return true;
-        } catch (Exception e) {
-            return false;
+    public void update(User user) {
+        User u = findById(user.getId());
+        if(u == null){
+            throw new EntityNotFoundException("User não encontrado.");
         }
-    }
-
-    @Override
-    public boolean update(User user) {
-        try{
-            if(findById(user.getId()) != null){
-                userDAO.save(user);
-            }
-            return true;
-        } catch (Exception e){
-            return false;
-        }
+        userDAO.save(user);
     }
 
     @Override
     public User findById(Long id){
         return userDAO.findById(id).orElse(null);
     }
-
-
 }
