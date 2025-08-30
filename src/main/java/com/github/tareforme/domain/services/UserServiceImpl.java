@@ -28,24 +28,22 @@ public class UserServiceImpl implements UserService {
     @Override
     public void delete(Long id) {
         User user = findById(id);
-        if(user == null){
+        if(!userDAO.existsById(id)){
             throw new EntityNotFoundException("User com o id" + id + " não encontrado.");
         }
         userDAO.delete(user);
     }
     @Override
     public void delete(User user) {
-        User u = findById(user.getId());
-        if(u == null){
+        if(!userDAO.existsById(user.getId())){
             throw new EntityNotFoundException("User não encontrado.");
         }
-        userDAO.delete(u);
+        userDAO.delete(user);
     }
 
     @Override
     public void update(User user) {
-        User u = findById(user.getId());
-        if(u == null){
+        if(!userDAO.existsById(user.getId())){
             throw new EntityNotFoundException("User não encontrado.");
         }
         userDAO.save(user);

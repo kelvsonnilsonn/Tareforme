@@ -35,17 +35,15 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public void delete(Task task) {
-        Task t = findById(task.getId());
-        if(t == null){
+        if(!taskDAO.existsById(task.getId())){
             throw new EntityNotFoundException("Task não encontrada.");
         }
-        taskDAO.delete(t);
+        taskDAO.delete(task);
     }
 
     @Override
     public void update(Task task) {
-        Task t = findById(task.getId());
-        if(t == null){
+        if(!taskDAO.existsById(task.getId())){
             throw new EntityNotFoundException("Task não encontrada.");
         }
         taskDAO.save(task);
