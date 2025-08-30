@@ -19,7 +19,6 @@ public class UserServiceImpl implements UserService {
         this.userDAO = userDAO;
     }
 
-
     @Override
     public boolean create(String name, String pass) throws InvalidNameException, InvalidPasswordException {
         userDAO.save(new User(name, pass));
@@ -27,7 +26,41 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean delete(Long id) {
+        try {
+            userDAO.deleteById(id);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean delete(User user) {
+        try {
+            userDAO.delete(user);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean update(User user) {
+        try{
+            if(findById(user.getId()) != null){
+                userDAO.save(user);
+            }
+            return true;
+        } catch (Exception e){
+            return false;
+        }
+    }
+
+    @Override
     public User findById(Long id){
         return userDAO.findById(id).orElse(null);
     }
+
+
 }
