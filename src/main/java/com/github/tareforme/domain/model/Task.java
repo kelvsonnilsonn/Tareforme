@@ -29,6 +29,7 @@ public class Task {
 
     private Instant createdAt;
 
+    @Enumerated(value = EnumType.STRING)
     private TaskStatus status;
 
     public Task(String name, String description, DefaultUser owner){
