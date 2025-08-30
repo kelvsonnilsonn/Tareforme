@@ -6,9 +6,11 @@ import com.github.tareforme.domain.valueobjects.Name;
 import com.github.tareforme.domain.valueobjects.Password;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Set;
 
+@Setter
 @Getter
 @Entity
 @Inheritance(strategy= InheritanceType.SINGLE_TABLE)
@@ -36,13 +38,11 @@ public abstract class DefaultUser{
         this.password = new Password(pass);
     }
 
-    public boolean changePassword(String oPassword) throws InvalidPasswordException {
+    public void changePassword(String oPassword) throws InvalidPasswordException {
         this.password = Password.of(oPassword);
-        return true;
     }
 
-    public boolean changeName(String oName) throws InvalidNameException {
+    public void changeName(String oName) throws InvalidNameException {
         this.name = Name.of(oName);
-        return true;
     }
 }
