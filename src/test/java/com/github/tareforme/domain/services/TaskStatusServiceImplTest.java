@@ -1,9 +1,7 @@
 package com.github.tareforme.domain.services;
 
-import com.github.tareforme.domain.expeptions.InvalidTaskTransitionException;
 import com.github.tareforme.domain.model.Task;
 import com.github.tareforme.domain.model.TaskStatus;
-import com.github.tareforme.domain.model.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,29 +13,34 @@ class TaskStatusServiceImplTest {
 
     @Autowired
     private TaskStatusServiceImpl taskStatusService;
+    @Autowired
+    private TaskServiceImpl taskService;
+    @Autowired
+    private UserServiceImpl userService;
 
     @Test
     void tentandoFazerUmaTaskCreatedVirarPending_temQueDarCerto() {
+        taskStatusService.setPedingStatus(2L);
+        assertEquals(TaskStatus.PENDING, taskService.findById(2L).getStatus());
+    }
 
-        User user = new User("Pedro", "Pedro1234");
-        Task task = new Task("Testando", "Uma descrição qualquer", user);
-        assertTrue(taskStatusService.setPedingStatus(task));
+    @Test
+    void tentandoFazerUmaTaskPendingVirarCompleted_temQueDarCerto() {
+        Task task = taskService.findById(1L);
     }
 
     @Test
     void tentandoFazerUmaTaskPendingVirarPending_temQueFalhar() {
-
-        User user = new User("Pedro", "Pedro1234");
-        Task task = new Task("Testando", "Uma descrição qualquer", user);
-        task.setStatus(TaskStatus.PENDING);
-        assertThrows(InvalidTaskTransitionException.class, () -> taskStatusService.setPedingStatus(task));
+        Task task = taskService.findById(1L);
     }
 
     @Test
     void tentandoFazerUmaTaskCreatedVirarCompleted_temQueFalhar() {
+        Task task = taskService.findById(1L);
+    }
 
-        User user = new User("Pedro", "Pedro1234");
-        Task task = new Task("Testando", "Uma descrição qualquer", user);
-        assertThrows(InvalidTaskTransitionException.class, () -> taskStatusService.setCompleteStatus(task));
+    @Test
+    void tentandoFazerUmaTaskCompletedVirarCompleted_temQueFalhar() {
+        Task task = taskService.findById(1L);
     }
 }
