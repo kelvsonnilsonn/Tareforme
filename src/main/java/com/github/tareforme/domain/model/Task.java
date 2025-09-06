@@ -24,7 +24,7 @@ public class Task {
     private TaskInfo taskInfo;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="user_id")
+    @JoinColumn(name = "owner_id")
     private User owner;
 
     private Instant createdAt;
@@ -53,5 +53,19 @@ public class Task {
 
     public String getDescription(){
         return this.taskInfo.getDescription();
+    }
+
+    @Override
+    public String toString() {
+        return "📋 Task [" + id + "]\n" +
+                "├── 📛 Name: " + (taskInfo != null ? taskInfo.getName() : "null") + "\n" +
+                "├── 📝 Description: " + (taskInfo != null ?
+                (taskInfo.getDescription().length() > 30 ?
+                        taskInfo.getDescription().substring(0, 30) + "..." :
+                        taskInfo.getDescription()) : "null") + "\n" +
+                "├── 👤 Owner: " + (owner != null ? owner.getName() : "null") + "\n" +
+                "├── ⏰ Created: " + (createdAt != null ?
+                createdAt.toString().replace("T", " ").replace("Z", "") : "null") + "\n" +
+                "└── 🏷️ Status: " + (status != null ? status : "null") + "\n";
     }
 }
