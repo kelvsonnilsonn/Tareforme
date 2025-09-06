@@ -6,11 +6,11 @@ import com.github.tareforme.domain.model.User;
 import com.github.tareforme.domain.ports.service.UserService;
 import com.github.tareforme.infra.repositories.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-@Slf4j
+import java.util.List;
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -27,30 +27,34 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void delete(Long id) {
-        User user = findById(id);
-        if(!userDAO.existsById(id)){
-            throw new EntityNotFoundException("User com o id" + id + " não encontrado.");
-        }
-        userDAO.delete(user);
+        verifyIfExists(id);
+        userDAO.deleteById(id);
     }
     @Override
     public void delete(User user) {
-        if(!userDAO.existsById(user.getId())){
-            throw new EntityNotFoundException("User não encontrado.");
-        }
+        verifyIfExists(user.getId());
         userDAO.delete(user);
     }
 
     @Override
     public void update(User user) {
-        if(!userDAO.existsById(user.getId())){
-            throw new EntityNotFoundException("User não encontrado.");
-        }
+        verifyIfExists(user.getId());
         userDAO.save(user);
+    }
+
+    @Override
+    public List<User> findAll(){
+        return userDAO.findAll();
     }
 
     @Override
     public User findById(Long id){
         return userDAO.findById(id).orElse(null);
+    }
+
+    private void verifyIfExists(Long id){
+        if(!userDAO.existsById(id)){
+            throw new EntityNotFoundException("User not found.");
+        }
     }
 }
