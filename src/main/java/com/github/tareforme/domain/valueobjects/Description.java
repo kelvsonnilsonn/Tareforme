@@ -19,6 +19,11 @@ public class Description {
         this.description = description;
     }
 
+    /**
+     * Creates a new Description object when the user wants to change it.
+     * @param description refers to the new description passed in the description change method.
+     * */
+
     public static Description of(String description) throws InvalidDescriptionException{
         return new Description(description);
     }

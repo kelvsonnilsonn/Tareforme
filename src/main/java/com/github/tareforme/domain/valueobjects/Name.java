@@ -19,6 +19,11 @@ public class Name {
         this.name = name;
     }
 
+    /**
+     * Creates a new Name object when the user wants to change it.
+     * @param name refers to the new name passed in the Name change method.
+     * */
+
     public static Name of(String name) throws InvalidNameException{
         return new Name(name);
     }
