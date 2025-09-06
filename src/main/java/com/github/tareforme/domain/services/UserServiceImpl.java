@@ -20,6 +20,16 @@ public class UserServiceImpl implements UserService {
         this.userDAO = userDAO;
     }
 
+    /**
+     * User creation procedure.
+     *
+     * @param name Refers to the name of the user to be created.
+     * @param pass Refers to the user's password.
+     *
+     * @throws IllegalArgumentException If username is null or doesn't follow the name pattern (Thrown by the Username class constructor).
+     * @throws IllegalArgumentException If password is null or less than 3 characters (Thrown by the Password class constructor).
+     */
+
     @Override
     public void create(String name, String pass) throws InvalidNameException, InvalidPasswordException {
         userDAO.save(new User(name, pass));
