@@ -25,27 +25,33 @@ public class Task {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="user_id")
-    private DefaultUser owner;
+    private User owner;
 
     private Instant createdAt;
 
     @Enumerated(value = EnumType.STRING)
     private TaskStatus status;
 
-    public Task(String name, String description, DefaultUser owner){
+    public Task(String name, String description, User owner){
         this.taskInfo = new TaskInfo(name, description);
         this.owner = owner;
         this.createdAt = Instant.now();
         this.status = TaskStatus.CREATED;
     }
 
-    public boolean changeTaskName(String oName) throws InvalidNameException {
+    public void changeTaskName(String oName) throws InvalidNameException {
         this.taskInfo = taskInfo.ofName(oName);
-        return true;
     }
 
-    public boolean changeTaskDescription(String oDescription){
+    public void changeTaskDescription(String oDescription){
         this.taskInfo = taskInfo.ofDescription(oDescription);
-        return true;
+    }
+
+    public String getName(){
+        return this.taskInfo.getName();
+    }
+
+    public String getDescription(){
+        return this.taskInfo.getDescription();
     }
 }
