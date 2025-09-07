@@ -9,14 +9,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-class TaskStatusServiceImplTest {
+class TaskStatusServiceTest {
 
     @Autowired
-    private TaskStatusServiceImpl taskStatusService;
+    private TaskStatusService taskStatusService;
     @Autowired
-    private TaskServiceImpl taskService;
+    private TaskService taskService;
     @Autowired
-    private UserServiceImpl userService;
+    private UserService userService;
 
     @Test
     void tentandoFazerUmaTaskCreatedVirarPending_temQueDarCerto() {

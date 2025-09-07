@@ -10,10 +10,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-class UserServiceImplTest {
+class UserServiceTest {
 
     @Autowired
-    private UserServiceImpl userService;
+    private UserService userService;
 
     @Test
     void criandoUmUsuarioComSucesso() {

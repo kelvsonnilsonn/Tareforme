@@ -3,7 +3,6 @@ package com.github.tareforme.domain.services;
 import com.github.tareforme.domain.expeptions.InvalidTaskTransitionException;
 import com.github.tareforme.domain.model.Task;
 import com.github.tareforme.domain.model.TaskStatus;
-import com.github.tareforme.domain.ports.service.TaskStatusService;
 import com.github.tareforme.infra.repositories.TaskRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -12,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 @Transactional
 @Service
-public class TaskStatusServiceImpl implements TaskStatusService {
+public class TaskStatusService {
 
     @Autowired
     private TaskRepository taskDAO;
@@ -28,7 +27,6 @@ public class TaskStatusServiceImpl implements TaskStatusService {
      * @throws InvalidTaskTransitionException if the task is already in PENDING status.
      */
 
-    @Override
     public void setPedingStatus(Long taskId) {
         Task task = taskDAO.findById(taskId).orElseThrow(() -> new EntityNotFoundException("Task not found"));
         if(task.getStatus() == TaskStatus.PENDING){
@@ -50,7 +48,6 @@ public class TaskStatusServiceImpl implements TaskStatusService {
      *                                        or if the task is in CREATED status (must be PENDING first)
      */
 
-    @Override
     public void setCompleteStatus(Long taskId) {
         Task task = taskDAO.findById(taskId).orElseThrow(() -> new EntityNotFoundException("Task not found"));
         if(task.getStatus() == TaskStatus.COMPLETED){

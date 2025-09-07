@@ -11,13 +11,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-class TaskServiceImplTest {
+class TaskServiceTest {
 
     @Autowired
-    private TaskServiceImpl taskService;
+    private TaskService taskService;
 
     @Autowired
-    private UserServiceImpl userService;
+    private UserService userService;
 
     @Test
     void criandoUmaTaskComONomeInvalido_DeveLançarUmaExceptionPorNull(){
