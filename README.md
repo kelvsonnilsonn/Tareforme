@@ -37,7 +37,7 @@ public class User {
     private Long id;
     private Name name;          // Value Object
     private Password password;  // Value Object  
-    private Set<Task> tasks;    // Tarefas do usuário
+    private List<Task> tasks = new ArrayList<>();    // Tarefas do usuário
 }
 ```
 
